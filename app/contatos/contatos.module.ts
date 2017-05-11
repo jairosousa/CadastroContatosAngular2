@@ -11,7 +11,7 @@ import { ContatoService } from "./contato.service";
     imports:[
         CommonModule,
         ContatoRoutingModule,
-        FormsModule
+        FormsModule,
     ],
     declarations: [
         ContatoDetalheComponent,

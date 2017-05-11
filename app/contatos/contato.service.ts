@@ -1,13 +1,28 @@
 import { Injectable } from "@angular/core";
+import { Http, Headers, Response } from "@angular/http";
+
+import 'rxjs/add/operator/toPromise';
 
 import { CONTATOS } from './contatos-mock';
 import { Contato } from "./contato.model";
 
 @Injectable()
 export class ContatoService {
+
+    private contatosURL: string = 'api/contatos';
+
+    private headers: Headers = new Headers({'Content-Type': 'application/json'});
+
+    constructor(
+        private http: Http
+    ) {}
+
     //Metodo chamado para pagina Lista de contatos
     getContatos(): Promise<Contato[]> {
-        return Promise.resolve(CONTATOS);
+        return this.http.get(this.contatosURL)
+            .toPromise()
+            .then(response => response.json().data as Contato[])
+            .catch(this.handleError);
     }
 
     //Metodo para buscar id contato para edição
@@ -16,6 +31,27 @@ export class ContatoService {
             .then((contatos: Contato[]) => contatos.find( contato => contato.id === id));
     }
 
+    create(contato: Contato): Promise<Contato> {
+        return this.http
+            .post(this.contatosURL, JSON.stringify(contato), {headers: this.headers})
+            .toPromise()
+            .then((response: Response) => response.json().data as Contato)
+            .catch(this.handleError);
+    }
+
+    update(contato: Contato): Promise<Contato> {
+        const url = `${this.contatosURL}/${contato.id}`;//app/contatos/:id
+        return this.http
+            .put(url, JSON.stringify(contato), {headers: this.headers})
+            .toPromise()
+            .then(() => contato as Contato)
+            .catch(this.handleError);
+    }
+
+    private handleError(err: any): Promise<any> {
+        console.log('Error: ', err);
+        return Promise.reject(err.message || err);
+    }
 
     //Metodo para teste das Promisse e simular lentidão no sistema
     getContatosSlowLy(): Promise<Contato[]> {
