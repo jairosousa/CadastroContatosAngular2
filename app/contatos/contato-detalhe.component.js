@@ -32,8 +32,19 @@ let ContatoDetalheComponent = class ContatoDetalheComponent {
             }
         });
     }
-    teste() {
-        console.log();
+    getFormGroupClass(isValid, isPristine) {
+        return {
+            'form-group': true,
+            'has-danger': !isValid && !isPristine,
+            'has-success': isValid && !isPristine
+        };
+    }
+    getFormControlClass(isValid, isPristine) {
+        return {
+            'form-control': true,
+            'form-control-danger': !isValid && !isPristine,
+            'form-control-success': isValid && !isPristine
+        };
     }
 };
 ContatoDetalheComponent = __decorate([
@@ -41,9 +52,6 @@ ContatoDetalheComponent = __decorate([
         moduleId: module.id,
         selector: 'contato-detalhe',
         templateUrl: 'contato-detalhe.component.html',
-        styleUrls: [
-            'contato-detalhe.component.css'
-        ]
     }),
     __metadata("design:paramtypes", [contato_service_1.ContatoService,
         router_1.ActivatedRoute,

@@ -9,9 +9,9 @@ import { Contato } from "./contato.model";
     moduleId: module.id,
     selector: 'contato-detalhe',
     templateUrl: 'contato-detalhe.component.html',
-    styleUrls: [
-        'contato-detalhe.component.css'
-    ]
+    // styleUrls: [
+    //     'contato-detalhe.component.css'
+    // ]
 })
 
 export class ContatoDetalheComponent implements OnInit {
@@ -39,8 +39,19 @@ export class ContatoDetalheComponent implements OnInit {
             });
         }
 
-        teste():void{
-            console.log();
+        getFormGroupClass(isValid: boolean, isPristine: boolean): {} {
+            return {
+                'form-group': true, 
+                'has-danger': !isValid && !isPristine,
+                'has-success': isValid && !isPristine
+            };
+        }
+        getFormControlClass(isValid: boolean, isPristine: boolean): {} {
+            return {
+                'form-control': true, 
+                'form-control-danger': !isValid && !isPristine,
+                'form-control-success': isValid && !isPristine
+            };
         }
 
 }
