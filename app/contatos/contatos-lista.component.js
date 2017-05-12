@@ -10,17 +10,61 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 const core_1 = require("@angular/core");
 const contato_service_1 = require("./contato.service");
+const dialog_service_1 = require("../dialog.service");
 let ContatosListaComponent = class ContatosListaComponent {
-    constructor(contatosService) {
+    constructor(contatosService, dialogService) {
         this.contatosService = contatosService;
+        this.dialogService = dialogService;
     }
     ngOnInit() {
         this.contatosService.getContatos()
             .then((contatos) => {
             this.contatos = contatos;
         }).catch(err => {
-            console.log('Aconteceu um erro: ', err);
+            this.mostrarMenssagem({
+                tipo: 'danger',
+                texto: ' Ocorreu um erro ao buscar a lista de contato!'
+            });
         });
+    }
+    onDelete(contato) {
+        console.log(contato);
+        this.dialogService.confirm('Deseja deletar o contato ' + contato.nome + "?")
+            .then((canDelete) => {
+            this.contatos = this.contatos.filter((c) => c.id != contato.id);
+            this.mostrarMenssagem({
+                tipo: 'success',
+                texto: ' Contato deletado!'
+            });
+        })
+            .catch(err => {
+            console.log(err);
+            this.mostrarMenssagem({
+                tipo: 'danger',
+                texto: ' Ocorreu um erro ao deletar o Contato!'
+            });
+        });
+        ;
+    }
+    mostrarMenssagem(mensagem) {
+        this.mensagem = mensagem;
+        this.montarClasse(mensagem.tipo);
+        if (mensagem.tipo != 'danger') {
+            setTimeout(() => {
+                this.mensagem = undefined;
+            }, 3000);
+        }
+    }
+    montarClasse(tipo) {
+        this.classesCss = {
+            'alert': true
+        };
+        this.classesCss['alert-' + tipo] = true; //ex: alert-success;
+        /**
+         * 'alert': true,
+         * 'alert-success': true,
+         * 'alert-danger: false
+         */
     }
 };
 ContatosListaComponent = __decorate([
@@ -29,7 +73,8 @@ ContatosListaComponent = __decorate([
         selector: 'contatos-lista',
         templateUrl: 'contatos-lista.component.html'
     }),
-    __metadata("design:paramtypes", [contato_service_1.ContatoService])
+    __metadata("design:paramtypes", [contato_service_1.ContatoService,
+        dialog_service_1.DialogService])
 ], ContatosListaComponent);
 exports.ContatosListaComponent = ContatosListaComponent;
 //# sourceMappingURL=contatos-lista.component.js.map
