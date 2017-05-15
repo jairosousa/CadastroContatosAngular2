@@ -15,6 +15,7 @@ let ContatosListaComponent = class ContatosListaComponent {
     constructor(contatosService, dialogService) {
         this.contatosService = contatosService;
         this.dialogService = dialogService;
+        this.contatos = [];
     }
     ngOnInit() {
         this.contatosService.getContatos()
@@ -50,7 +51,10 @@ let ContatosListaComponent = class ContatosListaComponent {
         this.mensagem = mensagem;
         this.montarClasse(mensagem.tipo);
         if (mensagem.tipo != 'danger') {
-            setTimeout(() => {
+            if (this.currentTimeout) {
+                clearTimeout(this.currentTimeout);
+            }
+            this.currentTimeout = setTimeout(() => {
                 this.mensagem = undefined;
             }, 3000);
         }

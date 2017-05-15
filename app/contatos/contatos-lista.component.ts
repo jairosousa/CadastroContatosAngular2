@@ -11,9 +11,10 @@ import { DialogService } from "../dialog.service";
 })
 export class ContatosListaComponent implements OnInit {
 
-    contatos: Contato[];
+    contatos: Contato[] = [];
     mensagem: {};
     classesCss: {};
+    private currentTimeout: any;
 
     constructor(
         private contatosService: ContatoService,
@@ -56,7 +57,12 @@ export class ContatosListaComponent implements OnInit {
         this.montarClasse(mensagem.tipo);
 
         if(mensagem.tipo != 'danger') {
-            setTimeout(() => {
+
+            if(this.currentTimeout) {
+                clearTimeout(this.currentTimeout);
+            }
+
+            this.currentTimeout = setTimeout(() => {
                 this.mensagem = undefined;
             }, 3000);
         }

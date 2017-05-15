@@ -69,7 +69,11 @@ export class ContatoDetalheComponent implements OnInit {
                 promise = this.contatoservice.update(this.contato);
             }
 
-            promise.then(contato => this.location.back());
+            promise.then(contato => this.goBack());
+        }
+
+        goBack(): void {
+            this.location.back();
         }
 
 }
