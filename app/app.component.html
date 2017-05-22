@@ -5,11 +5,12 @@
       <li class="nav-item"><a class="nav-link" routerLink="/contato/save">Novo</a></li>
     </ul>
     <form class="form-inline float-xs-right">
-        <input type="text" class="form-control" placeholder="Search">
-        <button type="submit" class="btn btn-outline-success">Search</button>
+        <input type="text" class="form-control" placeholder="Search"
+        name="busca" [(ngModel)]="termo">
+       
     </form>
 </nav>
 
 <router-outlet></router-outlet>
 
-<contato-busca></contato-busca>
+<contato-busca [(busca)]="termo"></contato-busca>

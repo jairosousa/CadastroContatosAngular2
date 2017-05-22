@@ -6,8 +6,7 @@
             <div class="form-group">
                 <label for="search"></label>
                 <input type="search" class="form-control" placeholder="Digite a sua busca"
-                    #searchBox
-                    (keyup)="search(searchBox.value)">
+                    [ngModel]="busca" (ngModelChange)="search($event)">
             </div>
 
             <ul class="list-group">

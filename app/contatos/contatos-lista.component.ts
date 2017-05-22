@@ -22,7 +22,7 @@ export class ContatosListaComponent implements OnInit {
         ) {}
 
     ngOnInit(): void {
-        this.contatosService.getContatos()
+        this.contatosService.findAll()
             .then((contatos: Contato[]) => {
                 this.contatos = contatos;
             }).catch(err => {

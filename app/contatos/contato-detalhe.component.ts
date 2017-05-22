@@ -34,7 +34,7 @@ export class ContatoDetalheComponent implements OnInit {
                 if(id){
                     this.isNew = false;
 
-                    this.contatoservice.getContato(id)
+                    this.contatoservice.find(id)
                     .then((contato: Contato) => {
                         this.contato = contato;
                         console.log(this.contato);

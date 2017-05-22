@@ -6,10 +6,11 @@ import 'rxjs/add/operator/toPromise';
 import { CONTATOS } from './contatos-mock';
 import { Contato } from "./contato.model";
 import { Observable } from "rxjs";
+import { ServiceInterface } from "../interfaces/service.interface";
 
 @Injectable()
-export class ContatoService {
-
+export class ContatoService implements ServiceInterface<Contato>{
+        
     private contatosURL: string = 'api/contatos';
 
     private headers: Headers = new Headers({'Content-Type': 'application/json'});
@@ -19,7 +20,7 @@ export class ContatoService {
     ) {}
 
     //Metodo chamado para pagina Lista de contatos
-    getContatos(): Promise<Contato[]> {
+    findAll(): Promise<Contato[]> {
         return this.http.get(this.contatosURL)
             .toPromise()
             .then(response => response.json().data as Contato[])
@@ -27,8 +28,8 @@ export class ContatoService {
     }
 
     //Metodo para buscar id contato para edição
-    getContato(id: number): Promise<Contato> {
-        return this.getContatos()
+    find(id: number): Promise<Contato> {
+        return this.findAll()
             .then((contatos: Contato[]) => contatos.find( contato => contato.id === id));
     }
 
@@ -85,7 +86,7 @@ export class ContatoService {
         })
         .then(() => {
             console.log('terceiro then');
-            return this.getContatos()
+            return this.findAll()
         });
     }
 
